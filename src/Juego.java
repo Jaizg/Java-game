@@ -2,24 +2,41 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Juego {
-    private boolean juegoEstaEnCurso = false;
+    private boolean juegoEstaEnCurso;
 
-    private Elemento piedra=new Elemento("Piedra", Arrays.asList());
-    private Elemento tijera=new Elemento("Tijera", Arrays.asList(piedra));
-    private Elemento papel=new Elemento("Papel", Arrays.asList(tijera));
+    private Elemento piedra;
+    private Elemento tijera;
+    private Elemento papel;
 
-    piedra=piedra.setDebilidades(Arrays.asList(papel));
+    private List<Elemento> elementosJuego;
 
-    private List<Elemento> elementosJuego = Arrays.asList(piedra, papel,tijera);
+    private int puntuacionJugador;
+    private int puntuacionMaquina;
 
-    private int puntuacionJugador = 0;
-    private int puntuacionMaquina = 0;
+    private Scanner escanerEntradaUsuario;
 
-    private Scanner escanerEntradaUsuario = new Scanner(System.in);
+    public Juego(){
 
-    private void iniciarPartida() {
+        this.juegoEstaEnCurso = false;
+
+    this.piedra = new Elemento("Piedra", Arrays.asList());
+    this.tijera = new Elemento("Tijera", Arrays.asList(piedra));
+    this.papel = new Elemento("Papel", Arrays.asList(tijera));
+
+    this.elementosJuego = Arrays.asList(piedra, papel, tijera);
+
+    this.puntuacionJugador = 0;
+    this.puntuacionMaquina = 0;
+
+    this.escanerEntradaUsuario = new Scanner(System.in);
+
+    }
+
+    public void iniciarPartida() {
+        this.juegoEstaEnCurso = true;
         System.out.println("Bienvenido a Jueguito Maravilloso, elige lo que quieres hacer a continuación: ");
         System.out.println("**********************************");
         System.out.println("1. Jugar");
@@ -42,7 +59,7 @@ public class Juego {
         }
     }
 
-    private void continuarPartida() {
+    public void continuarPartida() {
         System.out.println("A jugar!!!!");
         System.out.println("Elije tu elemento: ");
         System.out.println("**********************************");
@@ -53,27 +70,45 @@ public class Juego {
 
         String eleccionUsuario = escanerEntradaUsuario.next();
         Elemento elementoSeleccionadoUsuario;
-        Elemento elementoSeleccionadoMaquina=calcularJugadaMaquina();
+        Elemento elementoSeleccionadoMaquina = calcularJugadaMaquina();
 
         switch (eleccionUsuario) {
             case "1":
-                elementoSeleccionadoUsuario=elementosJuego.get(0);
-                
-                if(elementoSeleccionadoUsuario.equals(elementoSeleccionadoMaquina)){
+                elementoSeleccionadoUsuario = elementosJuego.get(0);
+
+                if (elementoSeleccionadoUsuario.equals(elementoSeleccionadoMaquina)) {
                     System.out.println("EMPATE!!!!!!!!!!!!!!");
-                }
-                else if(elementoSeleccionadoUsuario.calcularEnfrentamiento(elementoSeleccionadoMaquina.getNombre())==1){
+                } else if (elementoSeleccionadoUsuario
+                        .calcularEnfrentamiento(elementoSeleccionadoMaquina.getNombre()) == 1) {
                     puntuacionJugador++;
-                }else{
+                } else {
                     puntuacionMaquina++;
                 }
                 break;
 
             case "2":
-                continuarPartida();
+                elementoSeleccionadoUsuario = elementosJuego.get(1);
+
+                if (elementoSeleccionadoUsuario.equals(elementoSeleccionadoMaquina)) {
+                    System.out.println("EMPATE!!!!!!!!!!!!!!");
+                } else if (elementoSeleccionadoUsuario
+                        .calcularEnfrentamiento(elementoSeleccionadoMaquina.getNombre()) == 1) {
+                    puntuacionJugador++;
+                } else {
+                    puntuacionMaquina++;
+                }
                 break;
             case "3":
-                continuarPartida();
+                elementoSeleccionadoUsuario = elementosJuego.get(2);
+
+                if (elementoSeleccionadoUsuario.equals(elementoSeleccionadoMaquina)) {
+                    System.out.println("EMPATE!!!!!!!!!!!!!!");
+                } else if (elementoSeleccionadoUsuario
+                        .calcularEnfrentamiento(elementoSeleccionadoMaquina.getNombre()) == 1) {
+                    puntuacionJugador++;
+                } else {
+                    puntuacionMaquina++;
+                }
                 break;
 
             case "4":
@@ -97,11 +132,11 @@ public class Juego {
             case "1":
                 continuarPartida();
                 break;
-            
+
             case "2":
                 terminarPartida();
                 break;
-        
+
             default:
                 terminarPartida();
                 break;
@@ -109,13 +144,21 @@ public class Juego {
     }
 
     private Elemento calcularJugadaMaquina() {
+        Random random = new Random();
+        int indiceElementoAleatorio = random.nextInt(elementosJuego.size());
+        return elementosJuego.get(indiceElementoAleatorio);
     }
 
     private void terminarPartida() {
-        
+        System.out.println("Fin del juego");
+        System.out.println("Puntos Jugador: " + puntuacionJugador);
+        System.out.println("Puntos Maquina: " + puntuacionMaquina);
+        juegoEstaEnCurso = false;
     }
 
-    public static void main(String[] args) throws Exception {
-
+    public boolean isJuegoEstaEnCurso() {
+        return juegoEstaEnCurso;
     }
+
+    
 }

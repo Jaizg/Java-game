@@ -11,7 +11,12 @@ public class Elemento {
     }
 
     protected int calcularEnfrentamiento(String nombreOponente){
-        
+        for (Elemento debilidad : debilidades) {
+            if(debilidad.getNombre()==nombreOponente){
+                return 0;
+            }
+        }
+        return 1;
     }
 
     public void setDebilidades(List<Elemento> debilidades) {
