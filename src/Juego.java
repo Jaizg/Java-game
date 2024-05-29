@@ -24,6 +24,7 @@ public class Juego {
     this.piedra = new Elemento("Piedra", Arrays.asList());
     this.tijera = new Elemento("Tijera", Arrays.asList(piedra));
     this.papel = new Elemento("Papel", Arrays.asList(tijera));
+    this.piedra.setDebilidades(Arrays.asList(papel));
 
     this.elementosJuego = Arrays.asList(piedra, papel, tijera);
 
@@ -37,9 +38,10 @@ public class Juego {
     public void iniciarPartida() {
         this.juegoEstaEnCurso = true;
         System.out.println("Bienvenido a Jueguito Maravilloso, elige lo que quieres hacer a continuación: ");
-        System.out.println("**********************************");
+        System.out.println("************");
         System.out.println("1. Jugar");
         System.out.println("2. Salir");
+        System.out.println("************");
 
         String eleccionUsuario = escanerEntradaUsuario.next();
 
@@ -59,13 +61,17 @@ public class Juego {
     }
 
     public void continuarPartida() {
-        System.out.println("A jugar!!!!");
+        System.out.println("         ");
+        System.out.println("--- A jugar ---");
+        System.out.println("Puntuacion jugador: " + puntuacionJugador);
+        System.out.println("Puntuacion maquina: " + puntuacionMaquina);
         System.out.println("Elije tu elemento: ");
         System.out.println("**********************************");
         System.out.println("1. Piedra");
         System.out.println("2. Papel");
         System.out.println("3. Tijera");
         System.out.println("4. Abandonar Partida");
+        System.out.println("**********************************");
 
         String eleccionUsuario = escanerEntradaUsuario.next();
         Elemento elementoSeleccionadoUsuario;
@@ -119,11 +125,12 @@ public class Juego {
                 break;
         }
 
-        System.out.println("Que buena jugada...");
+        System.out.println("La maquina escogio: " + elementoSeleccionadoMaquina.getNombre());
         System.out.println("¿Que buena jugada quieres hacer ahora: ?");
         System.out.println("********************************");
         System.out.println("1. Seguir Jugando");
         System.out.println("2. Abandonar Partida");
+        System.out.println("3. Mostrar puntuacion");
 
         eleccionUsuario = escanerEntradaUsuario.next();
 
@@ -135,7 +142,10 @@ public class Juego {
             case "2":
                 terminarPartida();
                 break;
-
+                
+            case "3":
+                mostrarPuntuaje();
+                break;
             default:
                 terminarPartida();
                 break;
@@ -146,6 +156,12 @@ public class Juego {
         Random random = new Random();
         int indiceElementoAleatorio = random.nextInt(elementosJuego.size());
         return elementosJuego.get(indiceElementoAleatorio);
+    }
+
+    private void mostrarPuntuaje(){
+        System.out.println("La puntuacion esta asi: ");
+        System.out.println("Puntos Jugador: " + puntuacionJugador);
+        System.out.println("Puntos Maquina: " + puntuacionMaquina);
     }
 
     private void terminarPartida() {
@@ -159,5 +175,6 @@ public class Juego {
         return juegoEstaEnCurso;
     }
 
+    
     
 }
